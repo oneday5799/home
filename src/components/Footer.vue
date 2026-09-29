@@ -3,43 +3,15 @@
     <Transition name="fade" mode="out-in">
       <div v-if="!store.playerState || !store.playerLrcShow" class="power">
         <span>
-          <span :class="ShowStartYear ? 'c-hidden' : 'o-hidden'">Copyright&nbsp;</span>
           &copy;
           <span v-if="ShowStartYear" class="site-start">
             {{ startYear }}
             -
           </span>
           {{ fullYear }}
-          <a :href="siteUrl">{{ siteAuthor }}</a>
-        </span>
-        <!-- 以下信息请不要修改哦 -->
-        <span class="o-hidden">
-          &amp;&nbsp;Made&nbsp;by
-          <a :href="config.github" target="_blank">
-            {{ config.author }}
-          </a>
-        </span>
-        <span class="o-hidden">
-          &amp;&nbsp;Update&nbsp;by
-          <a :href="config.efug" target="_blank">
-            {{ config.efua }}
-          </a>
-        </span>
-        <!-- 站点备案 -->
-        <span>
-          <span v-if="siteIcp">
-            &amp;&nbsp;
-            <a v-if="siteIcp" href="https://beian.miit.gov.cn" target="_blank">
-              {{ siteIcp }}
-            </a>
-          </span>
-          <!-- 这备那备的真的很扫（bushi） -->
-          <span v-if="siteMps">
-            &amp;&nbsp;
-            <a v-if="siteMps" href="https://beian.mps.gov.cn" target="_blank">
-              {{ siteMps }}
-            </a>
-          </span>
+          <a :href="siteUrl">ONEDAY</a>
+          <span class="d-only">&nbsp;欢迎访问我的主页，此页面是我的跳转页面。博客主页打开可能比较慢，请见谅。</span>
+          <span class="m-only">&nbsp;欢迎访问我的主页</span>
         </span>
       </div>
       <div v-else class="lrc" @dblclick="toggleForceIcon">
@@ -111,7 +83,6 @@ import { MusicOne } from "@icon-park/vue-next";
 import { Icon } from "@vicons/utils";
 import { Paw } from "@vicons/ionicons5";
 import { mainStore } from "@/store";
-import config from "@/../package.json";
 import { ref, watch, computed, onMounted, nextTick, onUpdated, onBeforeUnmount } from "vue";
 import { throttle } from "lodash-es";
 
@@ -132,14 +103,10 @@ const startYear = ref<number | null>(
 const ShowStartYear = computed(() => {
   return startYear.value !== null && startYear.value < fullYear;
 });
-const siteIcp = ref(envConfig.VITE_SITE_ICP);
-const siteMps = ref(envConfig.VITE_SITE_MPS);
-const siteMICP = ref(envConfig.VITE_SITE_MICP);
-const siteAuthor = ref(envConfig.VITE_SITE_AUTHOR);
 
 const siteUrl = computed(() => {
   const url = envConfig.VITE_SITE_URL;
-  if (!url) return "https://www.imsyy.top/";
+  if (!url) return "https://www.oneday.vip/";
   let fullUrl = url;
   if (!/^https?:\/\//i.test(url)) {
     fullUrl = "https://" + url;
@@ -149,7 +116,7 @@ const siteUrl = computed(() => {
     const urlObj = new URL(fullUrl);
     return urlObj.toString();
   } catch (e) {
-    return "https://www.imsyy.top/";
+    return "https://www.oneday.vip/";
   };
 });
 
@@ -636,15 +603,25 @@ watch(() => store.getPlayerLrc, (_new, _old) => {
     }
   }
 
-  @media (max-width: 560px) {
-    .c-hidden {
-      display: none;
+  // 桌面端显示完整说明，移动端只显示简短说明
+  .m-only {
+    display: none;
+  }
+
+  // 说明文字较长，窄桌面下需要缩小字号避免超出单行
+  @media (min-width: 769px) and (max-width: 1000px) {
+    .d-only {
+      font-size: 0.85rem;
     }
   }
 
-  @media (max-width: 480px) {
-    .o-hidden {
+  @media (max-width: 768px) {
+    .d-only {
       display: none;
+    }
+
+    .m-only {
+      display: inline;
     }
   }
 }

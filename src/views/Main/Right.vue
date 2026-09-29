@@ -21,7 +21,7 @@ const store = mainStore();
 // 站点链接
 const siteUrl = computed(() => {
   const url = envConfig.VITE_SITE_URL;
-  if (!url) return "imsyy.top".split(".");
+  if (!url) return "oneday.vip".split(".");
   let urlFormat = url;
   // 判断协议前缀
   urlFormat = urlFormat.replace(/^(https?:\/\/)/, "");
