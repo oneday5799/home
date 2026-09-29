@@ -1,4 +1,7 @@
 interface ImportMetaEnv {
+    // 是否启用配置文件，非 "true" 时全部配置回退到 example_config.json
+    readonly VITE_CONFIG_TURN: string;
+
     // 站点信息
     readonly VITE_SITE_NAME: string;
     readonly VITE_SITE_AUTHOR: string;
@@ -22,11 +25,6 @@ interface ImportMetaEnv {
 
     // 建站日期
     readonly VITE_SITE_START: string;
-
-    // ICP 备案号
-    readonly VITE_SITE_ICP: string;
-    readonly VITE_SITE_MPS: string;
-    readonly VITE_SITE_MICP: string;
 
     // 歌曲 API 设置
     readonly VITE_SONG_API: string;
